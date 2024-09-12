@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Services\FileUploadService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -9,9 +12,29 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+     protected $fileUploadService;
+
+     public function __construct(FileUploadService $fileUploadService)
+     {
+         $this->fileUploadService = $fileUploadService;
+     }
+    public function index(Request $request)
     {
-        return view('');
+        $totalItems = Category::count();
+
+        $itemsPerPage = 15;
+        $itemsPerPage = $request->query('itemsPerPage', $itemsPerPage);
+        $categories = Category::orderBy('id', 'desc')->paginate($itemsPerPage);
+        if ($request->ajax()) {
+            $view = view('admin.category.index', compact('contacts', 'itemsPerPage', 'totalItems'))->render();
+            $response = [
+                'html' => $view,
+            ];
+
+            return new JsonResponse($response);
+        }
+        return view('admin.category.index', compact('categories', 'totalItems', 'itemsPerPage'));
     }
 
     /**
@@ -19,7 +42,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.category.create');
     }
 
     /**
@@ -27,7 +50,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category = Category::create($request->all());
+        $category->created_by = auth()->user()->id;
+        if ($request->hasFile('image')) {
+            $filename = $this->fileUploadService->uploadImage('category/', $request->file('image'));
+            $category->image = $filename;
+        }
+        $category->save();
+        return redirect()->route('category.index')->with(['message' => 'Added Successfully','alert-type' => 'success']);
+
     }
 
     /**

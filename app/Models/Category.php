@@ -14,5 +14,7 @@ class Category extends Model
         'slug',
         'status',
         'created_by',
+        'is_featured',
+'priority'
     ];
 }

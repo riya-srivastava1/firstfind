@@ -33,6 +33,15 @@
                 </a>
             </div>
 
+            <div class="menu-item {{ request()->routeIs('category.index') ? 'active' : '' }}">
+                <a href="{{ route('category.index') }}" class="menu-link">
+                    <div class="menu-icon">
+                        <i class="fas fa-dashboard"></i>
+                    </div>
+                    <div class="menu-text">Category</div>
+                </a>
+            </div>
+
         </div>
 
         <!-- BEGIN minify-button -->

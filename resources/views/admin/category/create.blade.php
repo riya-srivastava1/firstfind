@@ -1,11 +1,13 @@
 @extends('layouts.app')
 @section('content')
     <div id="content" class="app-content">
+        <!-- BEGIN breadcrumb -->
         <ol class="breadcrumb justify-content-end">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('hotel.index') }}">Hotels listing</a></li>
-            <li class="breadcrumb-item active">Add Hotels</li>
+            <li class="breadcrumb-item"><a href="{{ route('category.index') }}">category Listing</a></li>
+            <li class="breadcrumb-item active">Add Deliveries</li>
         </ol>
+        <!-- END breadcrumb -->
         <!-- BEGIN row -->
         <div class="row">
             <!-- BEGIN col-6 -->
@@ -14,94 +16,75 @@
                 <div class="panel panel-inverse" data-sortable-id="form-validation-1">
                     <!-- BEGIN panel-heading -->
                     <div class="panel-heading">
-                        <h4 class="panel-title">Add Hotels</h4>
+                        <h4 class="panel-title">Add Deliveries</h4>
                     </div>
                     <!-- END panel-heading -->
                     <!-- BEGIN panel-body -->
-                    <div class="panel-body p-0">
-                       <form action="{{isset($category)?route('admin.category.update',[$category['id']]):route('admin.category.store')}}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    @if($language)
-                        <ul class="nav nav-tabs mb-4 border-0">
-                            <li class="nav-item">
-                                <a class="nav-link lang_link active"
-                                href="#"
-                                id="default-link">{{translate('messages.default')}}</a>
-                            </li>
-                            @foreach ($language as $lang)
-                                <li class="nav-item">
-                                    <a class="nav-link lang_link"
-                                        href="#"
-                                        id="{{ $lang }}-link">{{ \App\CentralLogics\Helpers::get_language_name($lang) . '(' . strtoupper($lang) . ')' }}</a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endif
-                    <div class="row">
-                        <div class="col-md-6">
-                            @if ($language)
-                            <div class="form-group lang_form" id="default-form">
-                                <label class="input-label" for="exampleFormControlInput1">{{translate('messages.name')}} ({{ translate('messages.default') }})
-                                    <span class="form-label-secondary text-danger"
-                                    data-toggle="tooltip" data-placement="right"
-                                    data-original-title="{{ translate('messages.Required.')}}"> *
-                                    </span>
+                    <div class="panel-body">
+                        <form class="form-horizontal" action="{{ route('category.store') }}" data-parsley-validate="true"
+                            method="POST" id="categoryForm" enctype= "form-data/multipart">
+                            @csrf
+                            <div class="row">
 
-                                </label>
-                                <input type="text" name="name[]"  value="{{ old('name.0') }}" class="form-control" placeholder="{{translate('messages.new_category')}}" maxlength="191">
-                            </div>
-                            <input type="hidden" name="lang[]" value="default">
-                                @foreach($language as $key=> $lang)
-                                    <div class="form-group d-none lang_form" id="{{$lang}}-form">
-                                        <label class="input-label" for="exampleFormControlInput1">{{translate('messages.name')}} ({{strtoupper($lang)}})</label>
-                                        <input type="text" name="name[]"  value="{{ old('name.'.$key+1) }}" class="form-control" placeholder="{{translate('messages.new_category')}}" maxlength="191">
-                                    </div>
-                                    <input type="hidden" name="lang[]" value="{{$lang}}">
-                                @endforeach
-                            @else
-                                <div class="form-group">
-                                    <label class="input-label" for="exampleFormControlInput1">{{translate('messages.name')}}</label>
-                                    <input type="text" name="name" class="form-control" placeholder="{{translate('messages.new_category')}}" value="{{old('name')}}" maxlength="191">
-                                </div>
-                                <input type="hidden" name="lang[]" value="default">
-                            @endif
-                            <input name="position" value="0" class="initial-hidden">
-                        </div>
-                        <div class="col-md-6">
-                            <div class="h-100 d-flex align-items-center flex-column">
-                                <label class="mb-3 text-center">{{translate('messages.image')}} <small class="text-danger">* ( {{translate('messages.ratio')}} 1:1)</small></label>
-                                <label class="text-center my-auto position-relative d-inline-block">
-                                    <img class="img--176 border" id="viewer"
-                                        @if(isset($category))
-                                        src="{{asset('storage/app/public/category')}}/{{$category['image']}}"
-                                        @else
-                                        src="{{asset('public/assets/admin/img/upload-img.png')}}"
+                                <div id="tracking_id" class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label class="col-form-label form-label">Category name <span class="text-danger"
+                                                title="field required">*</span></label>
+                                        <input class="form-control" type="text" id="tracking_id" name="name"
+                                            value="{{ old('name') }}"  placeholder="Enter Category name"
+                            >
+                                        @if ($errors->has('name'))
+                                            <div class="text-danger">{{ $errors->first('name') }}
+                                            </div>
                                         @endif
-                                        alt="image"/>
-                                    <div class="icon-file-group">
-                                        <div class="icon-file">
-                                            <input type="file" name="image" id="customFileEg1" class="custom-file-input read-url"
-                                                accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" >
-                                                <i class="tio-edit"></i>
+                                    </div>
+                                </div>
+
+                                <div id="priority" class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label class="col-form-label form-label" for="modeoftransport">Priority
+                                            <span class="text-danger" title="field required">*</span></label>
+                                        <select name="priority" id="modeoftransport" class="form-select mb-1">
+                                            <option value="" disabled selected>Select</option>
+                                            <option value="high">High</option>
+                                            <option value="medium">Medium</option>
+                                            <option value="normal">Normal</option>
+                                        </select>
+                                        @if ($errors->has('priority'))
+                                            <div class="text-danger">{{ $errors->first('priority') }}</div>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label class="col-form-label form-label" for="email">image<span
+                                                class="text-danger" title="field required">*</span></label>
+                                        <div>
+                                            <input class="form-control" type="file" id="image" name="image"
+                                                value="{{ old('image') }}" placeholder="Enter Vehicle Type">
+                                            @if ($errors->has('image'))
+                                                <div class="text-danger">{{ $errors->first('image') }}</div>
+                                            @endif
                                         </div>
                                     </div>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="btn--container justify-content-end mt-3">
-                        <button type="reset" id="reset_btn" class="btn btn--reset">{{translate('messages.reset')}}</button>
-                        <button type="submit" class="btn btn--primary">{{isset($category)?translate('messages.update'):translate('messages.add')}}</button>
-                    </div>
+                                </div>
 
-                </form>
+                                <div class="col-md-12">
+                                    <div class="form-group text-center">
+                                        <label class="col-form-label form-label">&nbsp;</label>
+                                        <div>
+                                            <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <!-- END panel-body -->
                 </div>
                 <!-- END panel -->
             </div>
             <!-- END col-6 -->
-
         </div>
         <!-- END row -->
     </div>

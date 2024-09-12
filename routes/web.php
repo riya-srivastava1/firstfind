@@ -51,7 +51,6 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         Route::get('category/status/{id}', 'status')->name('category.status');
         Route::post('category/search', 'search')->name('category.search');
     });
-
 });
 
 require __DIR__.'/auth.php';
