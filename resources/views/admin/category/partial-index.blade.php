@@ -5,6 +5,7 @@
                 <tr>
                     <th width="1%">S.No</th>
                     <th width="1%">Id</th>
+                    <th class="text-nowrap">Image</th>
                     <th class="text-nowrap">Name</th>
                     <th class="text-nowrap">Priority</th>
                     <th class="text-nowrap">status</th>
@@ -22,18 +23,24 @@
             </thead>
             <tbody>
                 @if (isset($categories) && count($categories) > 0)
-                    @foreach ($categories as $index => $user)
+                    @foreach ($categories as $index => $category)
                         <tr class="odd gradeX">
                             <td width="1%" class="fw-bold text-dark">
                                 {{ ($categories->currentPage() - 1) * $categories->perPage() + $index + 1 }}</td>
-                            <td>{{ $user->id ?? 'NA' }}</td>
-                            <td>{{ $user->name ?? 'NA' }}</td>
-                            <td>{{ ucwords($user->priority) ?? 'NA' }}</td>
-                            <td>{{ $user->status ?? 'NA' }}</td>
+                            <td>{{ $category->id ?? 'NA' }}</td>
+                            <td> @if ($category->image)
+                                <img width="50px" height="50px" src="{{ Storage::url('category/' . $category->image) }}"
+                                    class="me-2 preview-img" alt="img">
+                            @else
+                                No Image
+                            @endif</td>
+                            <td>{{ $category->name ?? 'NA' }}</td>
+                            <td>{{ ucwords($category->priority) ?? 'NA' }}</td>
+                            <td>{{ $category->status ?? 'NA' }}</td>
 
                                     <td nowrap>
                                         <a title="Delete"
-                                            onclick="confirmDelete('{{ route('category.destroy', $user->id) }}')"
+                                            onclick="confirmDelete('{{ route('category.destroy', $category->id) }}')"
                                             class="fa fa-trash-alt w-20px"></a>
                                     </td>
 

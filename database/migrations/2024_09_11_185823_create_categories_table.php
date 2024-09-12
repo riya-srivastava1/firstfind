@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->string('is_featured')->nullable();
+            $table->boolean('is_featured')->default(1)->comment('1=>yes,0=>no');
             $table->enum('priority', ['high', 'medium', 'normal'])->default('normal');
             $table->string('image')->nullable();
             $table->string('slug')->nullable();

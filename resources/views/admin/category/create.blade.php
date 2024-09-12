@@ -16,13 +16,13 @@
                 <div class="panel panel-inverse" data-sortable-id="form-validation-1">
                     <!-- BEGIN panel-heading -->
                     <div class="panel-heading">
-                        <h4 class="panel-title">Add Deliveries</h4>
+                        <h4 class="panel-title">Add Categories</h4>
                     </div>
                     <!-- END panel-heading -->
                     <!-- BEGIN panel-body -->
                     <div class="panel-body">
                         <form class="form-horizontal" action="{{ route('category.store') }}" data-parsley-validate="true"
-                            method="POST" id="categoryForm" enctype= "form-data/multipart">
+                            method="POST" id="categoryForm" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
 
@@ -55,6 +55,30 @@
                                         @endif
                                     </div>
                                 </div>
+                                <div id="is_featured" class="col-md-4">
+                                    <div class="form-group mb-3">
+                                        <label class="col-form-label form-label" for="is_featured">Is Featured
+                                            <span class="text-danger" title="field required">*</span>
+                                        </label>
+                                        <div class="d-flex justify-content-start align-items-center">
+                                            <!-- Yes Option -->
+                                            <div class="form-check me-3">
+                                                <input type="radio" class="form-check-input" name="is_featured" id="is_featured_yes" value="1">
+                                                <label class="form-check-label" for="is_featured_yes">Yes</label>
+                                            </div>
+                                            <!-- No Option -->
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input" name="is_featured" id="is_featured_no" value="0">
+                                                <label class="form-check-label" for="is_featured_no">No</label>
+                                            </div>
+                                        </div>
+                                        @if ($errors->has('is_featured'))
+                                            <div class="text-danger">{{ $errors->first('is_featured') }}</div>
+                                        @endif
+                                    </div>
+                                </div>
+
+
                                 <div class="col-md-4">
                                     <div class="form-group mb-3">
                                         <label class="col-form-label form-label" for="email">image<span
