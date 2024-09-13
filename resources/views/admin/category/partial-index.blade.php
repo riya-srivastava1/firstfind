@@ -42,10 +42,11 @@
                                     <label class="switch">
                                         <input type="checkbox" class="status-toggle" data-id="{{ $category->id }}"
                                             {{ $category->status ? 'checked' : '' }}>
-                                        <span class="sliders round"></span>
+                                        <span class="slider round"></span>
                                     </label>
                                 </div>
                             </td>
+
 
                             <td nowrap>
                                 <a title="Edit" href="{{ route('category.edit', $category->id) }}"
