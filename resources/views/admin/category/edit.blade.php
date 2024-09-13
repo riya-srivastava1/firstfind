@@ -47,9 +47,9 @@
                                         </label>
                                         <select name="priority" id="modeoftransport" class="form-select mb-1">
                                             <option value="" disabled>Select</option>
-                                            <option value="high" {{ old('priority', $data->priority ?? '') == 'high' ? 'selected' : '' }}>High</option>
-                                            <option value="medium" {{ old('priority', $data->priority ?? '') == 'medium' ? 'selected' : '' }}>Medium</option>
-                                            <option value="normal" {{ old('priority', $data->priority ?? '') == 'normal' ? 'selected' : '' }}>Normal</option>
+                                            <option value="high" {{ old('priority', $category->priority ?? '') == 'high' ? 'selected' : '' }}>High</option>
+                                            <option value="medium" {{ old('priority', $category->priority ?? '') == 'medium' ? 'selected' : '' }}>Medium</option>
+                                            <option value="normal" {{ old('priority', $category->priority ?? '') == 'normal' ? 'selected' : '' }}>Normal</option>
                                         </select>
                                         @if ($errors->has('priority'))
                                             <div class="text-danger">{{ $errors->first('priority') }}</div>
@@ -63,16 +63,14 @@
                                             <span class="text-danger" title="field required">*</span>
                                         </label>
                                         <div class="d-flex justify-content-start align-items-center">
-                                            <!-- Yes Option -->
                                             <div class="form-check me-3">
                                                 <input type="radio" class="form-check-input" name="is_featured" id="is_featured_yes" value="1"
-                                                    {{ old('is_featured', $data->is_featured ?? '') == '1' ? 'checked' : '' }}>
+                                                    {{ $category->is_featured == 1 ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="is_featured_yes">Yes</label>
                                             </div>
-                                            <!-- No Option -->
                                             <div class="form-check">
                                                 <input type="radio" class="form-check-input" name="is_featured" id="is_featured_no" value="0"
-                                                    {{ old('is_featured', $data->is_featured ?? '') == '0' ? 'checked' : '' }}>
+                                                    {{ $category->is_featured == 0 ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="is_featured_no">No</label>
                                             </div>
                                         </div>

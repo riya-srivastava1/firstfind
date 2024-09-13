@@ -84,6 +84,4 @@ class CategoryAPIController extends Controller
             ],
         ], 201);
     }
-
-
 }

@@ -4,7 +4,7 @@
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb justify-content-end">
         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-        <li class="breadcrumb-item active">Contact us Listing</li>
+        <li class="breadcrumb-item active">Sub Category Listing</li>
     </ol>
     <!-- END breadcrumb -->
 
@@ -12,10 +12,10 @@
     <div class="panel panel-inverse">
         <!-- BEGIN panel-heading -->
         <div class="panel-heading">
-            <h4 class="panel-title">Contact Us Listing</h4>
+            <h4 class="panel-title">Sub Category Listing</h4>
             <div class="panel-heading-btn">
                 {{-- @if (isset($user) && isset($permissions) && in_array('delivery-create', $permissions)) --}}
-                <a href={{ route('category.create') }} class="fas fa-lg fa-fw me-10px fa-plus" title="Add Delivery"
+                <a href={{ route('subcategory.create') }} class="fas fa-lg fa-fw me-10px fa-plus" title="Add Sub category"
                     style="text-decoration: none; color:white;"></a>
                     {{-- @endif --}}
             </div>
@@ -34,7 +34,7 @@
         <!-- END panel-heading -->
         <!-- BEGIN panel-body -->
         <div id="searchResults">
-            @include('admin.category.partial-index')
+            @include('admin.sub-category.partial-index')
 
         </div>
 

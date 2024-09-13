@@ -37,15 +37,7 @@
                             </td>
                             <td>{{ $category->name ?? 'NA' }}</td>
                             <td>{{ ucwords($category->priority) ?? 'NA' }}</td>
-                            <td>
-                                <div class="active-switch">
-                                    <label class="switch">
-                                        <input type="checkbox" class="status-toggle" data-id="{{ $category->id }}"
-                                            {{ $category->status ? 'checked' : '' }}>
-                                        <span class="sliders round"></span>
-                                    </label>
-                                </div>
-                            </td>
+                            <td>{{ $category->status ?? 'NA' }}</td>
 
                             <td nowrap>
                                 <a title="Edit" href="{{ route('category.edit', $category->id) }}"

@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('sub_categories', function (Blueprint $table) {
             $table->id();
             $table->string('category_id')->nullable();
-            $table->string('name');
+            $table->string('name')->nullable();
+            $table->string('image')->nullable();
             $table->boolean('is_featured')->default(1)->comment('1=>yes,0=>no');
             $table->enum('priority', ['high', 'medium', 'normal'])->default('normal');
             $table->boolean('status')->default(1)->comment('0=>inactive,1=>active');

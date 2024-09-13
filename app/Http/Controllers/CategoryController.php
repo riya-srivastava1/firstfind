@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Services\FileUploadService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -13,12 +14,12 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      */
 
-     protected $fileUploadService;
+    protected $fileUploadService;
 
-     public function __construct(FileUploadService $fileUploadService)
-     {
-         $this->fileUploadService = $fileUploadService;
-     }
+    public function __construct(FileUploadService $fileUploadService)
+    {
+        $this->fileUploadService = $fileUploadService;
+    }
     public function index(Request $request)
     {
         $totalItems = Category::count();
@@ -57,7 +58,7 @@ class CategoryController extends Controller
             $category->image = $filename;
         }
         $category->save();
-        return redirect()->route('category.index')->with(['message' => 'Added Successfully','alert-type' => 'success']);
+        return redirect()->route('category.index')->with(['message' => 'Added Successfully', 'alert-type' => 'success']);
 
     }
 
@@ -75,7 +76,7 @@ class CategoryController extends Controller
     public function edit(string $id)
     {
         $category = Category::findOrFail($id);
-        return view('admin.category.edit',compact('category'));
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
@@ -83,19 +84,39 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $category->fill($request->except('image')); // Fill all fields except 'image'
+        $category->created_by = auth()->user()->id;
+        $logoData = $request->except('logo_image');
+        if ($request->hasFile('image')) {
+            $filename = $this->fileUploadService->uploadImage('category/', $request->file('image'));
+            $logoData['image'] = $filename;
+            $this->fileUploadService->removeImage('category/', $logo->image ?? null);
+        }
+        // Save the updated subcategory
+        $category->update($logoData);
+        return redirect()->route('category.index')->with([
+            'message' => 'Updated Successfully',
+            'alert-type' => 'success'
+        ]);
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $category = Category::findOrFail($id);
-        if($category){
-            $category->delete();
-            return redirect()->back()->with(['message' => 'Deleted Successfully','alert-type' => 'success']);
+        try {
+            $category = Category::findOrFail($id);
+            $image = $category->image;
+            $category->forceDelete();
+            if ($image) {
+                $this->fileUploadService->removeImage('category/', $image);
+            }
+            return redirect()->back()->with('success', 'Deleted Successfully');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Something went wrong');
         }
-        return redirect()->back()->with(['message' => 'Something went wrong','alert-type' => 'error']);
     }
 }
