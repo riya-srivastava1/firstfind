@@ -41,6 +41,7 @@
                                 <div class="active-switch">
                                     <label class="switch">
                                         <input type="checkbox" class="status-toggle" data-id="{{ $category->id }}"
+                                        onclick="return confirm('Are you sure want to change status?')"
                                             {{ $category->status ? 'checked' : '' }}>
                                         <span class="slider round"></span>
                                     </label>

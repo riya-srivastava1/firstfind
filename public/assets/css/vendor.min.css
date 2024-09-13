@@ -13781,17 +13781,16 @@ a.ui-button:active {
 }
 
 
-/* The switch - the box around the slider */
+/* Smaller switch */
 
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 40px;
+    /* Reduced width */
+    height: 20px;
+    /* Reduced height */
 }
-
-
-/* Hide default HTML checkbox */
 
 .switch input {
     opacity: 0;
@@ -13811,26 +13810,28 @@ a.ui-button:active {
     bottom: 0;
     background-color: #ccc;
     transition: .4s;
-    border-radius: 34px;
+    border-radius: 20px;
+    /* Adjust border-radius to match the smaller size */
 }
 
 
 /* Round slider */
 
 .slider.round {
-    border-radius: 34px;
+    border-radius: 20px;
 }
-
-
-/* The slider moves when checked */
 
 .slider::before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: 16px;
+    /* Smaller circle */
+    width: 16px;
+    /* Smaller circle */
+    left: 2px;
+    /* Adjusted left position */
+    bottom: 2px;
+    /* Adjusted bottom position */
     background-color: white;
     transition: .4s;
     border-radius: 50%;
@@ -13844,5 +13845,80 @@ input:checked+.slider {
 }
 
 input:checked+.slider::before {
-    transform: translateX(26px);
+    transform: translateX(20px);
+    /* Adjust the distance based on the new size */
+}
+
+
+/* General badge style */
+
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.75em;
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #fff;
+    text-align: center;
+    border-radius: 0.25rem;
+}
+
+
+/* Success badge (Accepted) */
+
+.badge-success {
+    background-color: #28a745;
+    /* Green color */
+}
+
+
+/* Danger badge (Rejected) */
+
+.badge-danger {
+    background-color: #dc3545;
+    /* Red color */
+}
+
+
+/* Add some spacing if needed */
+
+.badge+.badge {
+    margin-left: 0.5em;
+}
+
+
+/* Adjust badge text */
+
+.badge-success,
+.badge-danger {
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+
+/* Hover effect (optional) */
+
+.badge-success:hover {
+    background-color: #218838;
+}
+
+.badge-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0 5px;
+}
+
+.btn-icon i {
+    font-size: 1.5em;
+    /* Adjust icon size */
+}
+
+.badge {
+    padding: 0.5em 0.75em;
+    font-size: 0.9em;
 }

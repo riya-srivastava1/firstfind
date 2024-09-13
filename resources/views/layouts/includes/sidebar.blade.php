@@ -33,14 +33,48 @@
                 </a>
             </div>
 
-            <div class="menu-item {{ request()->routeIs('category.index') ? 'active' : '' }}">
+            {{-- <div class="menu-item {{ request()->routeIs('category.index') ? 'active' : '' }}">
                 <a href="{{ route('category.index') }}" class="menu-link">
                     <div class="menu-icon">
                         <i class="fas fa-dashboard"></i>
                     </div>
-                    <div class="menu-text">Category</div>
+                    <div class="menu-text">Categories</div>
                 </a>
+            </div> --}}
+
+
+            <div
+            class="menu-item has-sub {{ request()->routeIs('subcategory.index', 'subcategory.create', 'subcategory.edit') ? 'active' : '' }}{{ request()->routeIs('category.index', 'category.create', 'category.show', 'category.edit') ? 'active' : '' }} ">
+            <a href="javascript:;" class="menu-link">
+                <div class="menu-icon">
+                    <i class="fas fa-tablet-screen-button"></i>
+                </div>
+                <div class="menu-text">Categories</div>
+                <div class="menu-caret"></div>
+            </a>
+            <div class="menu-submenu">
+                {{-- @if (isset($user_data) &&
+                        isset($permissions) &&
+                        (in_array('subcategory_create', $permissions) ||
+                            in_array('subcategory_edit', $permissions) ||
+                            in_array('subcategory_list', $permissions) ||
+                            in_array('subcategory_delete', $permissions) ||
+                            in_array('subcategory_show', $permissions))) --}}
+                    <div
+                        class="menu-item {{ request()->routeIs('category.index', 'category.create', 'category.show', 'category.edit') ? 'active' : '' }}">
+                        <a href="{{ route('category.index') }}" class="menu-link">
+                            <div class="menu-text">Category</div>
+                        </a>
+                    </div>
+                {{-- @endif --}}
+                <div
+                    class="menu-item {{ request()->routeIs('subcategory.index', 'subcategory.create', 'subcategory.show', 'subcategory.edit') ? 'active' : '' }}">
+                    <a href="{{ route('subcategory.index') }}" class="menu-link">
+                        <div class="menu-text">Sub Category</div>
+                    </a>
+                </div>
             </div>
+        </div>
 
         </div>
 

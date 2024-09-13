@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 use Modules\Users\App\Http\Controllers\UsersController;
 
@@ -48,8 +49,20 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         Route::get('category/edit/{id}', 'edit')->name('category.edit');
         Route::post('category/update/{id}', 'update')->name('category.update');
         Route::get('category/delete/{id}', 'destroy')->name('category.destroy');
-        Route::get('category/status/{id}', 'status')->name('category.status');
+        Route::post('category/status', 'status')->name('category.status');
         Route::post('category/search', 'search')->name('category.search');
+    });
+    Route::controller(SubCategoryController::class)->group(function () {
+        Route::get('subcategory', 'index')->name('subcategory.index');
+        Route::get('subcategory/create', 'create')->name('subcategory.create');
+        Route::post('subcategory/store', 'store')->name('subcategory.store');
+        Route::get('subcategory/edit/{id}', 'edit')->name('subcategory.edit');
+        Route::post('subcategory/update/{id}', 'update')->name('subcategory.update');
+        Route::get('subcategory/delete/{id}', 'destroy')->name('subcategory.destroy');
+        Route::post('subcategory/status', 'status')->name('subcategory.status');
+        Route::post('subcategory/search', 'search')->name('subcategory.search');
+        Route::patch('/subcategory/{id}/status', 'updateStatus')->name('subcategory.status.update');
+
     });
 });
 
