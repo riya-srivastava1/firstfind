@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryAPIController extends Controller
 {
@@ -50,4 +51,39 @@ class CategoryAPIController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function store(Request $request)
+    {
+        // Define validation rules
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|unique:categories,name',
+        ]);
+
+        // Check validation
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation errors',
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+
+        // Store the details in the database
+        $detail = new Category();
+        $detail->name = $request->name;
+        $detail->status = 0;
+        $detail->save();
+
+        // Return success response with id first, then name
+        return response()->json([
+            'success' => true,
+            'message' => 'Your category request has been sent to the admin for approval.',
+            'data' => [
+                'id' => $detail->id,
+                'name' => $detail->name
+            ],
+        ], 201);
+    }
+
+
 }
