@@ -14,9 +14,7 @@
                     @if (isset($user) && isset($permissions) && in_array('user-status', $permissions))
                         <th class="text-nowrap">Status</th>
                     @endif --}}
-                    {{-- @if (isset($user) &&
-                            isset($permissions) &&
-                            (in_array('contactus-edit', $permissions) || in_array('contactus-delete', $permissions)))
+                    {{-- @if (isset($user) && isset($permissions) && (in_array('contactus-edit', $permissions) || in_array('contactus-delete', $permissions)))
                         <th width="1%">Action</th>
                     @endif --}}
                 </tr>
@@ -28,22 +26,34 @@
                             <td width="1%" class="fw-bold text-dark">
                                 {{ ($categories->currentPage() - 1) * $categories->perPage() + $index + 1 }}</td>
                             <td>{{ $category->id ?? 'NA' }}</td>
-                            <td> @if ($category->image)
-                                <img width="50px" height="50px" src="{{ Storage::url('category/' . $category->image) }}"
-                                    class="me-2 preview-img" alt="img">
-                            @else
-                                No Image
-                            @endif</td>
+                            <td>
+                                @if ($category->image)
+                                    <img width="50px" height="50px"
+                                        src="{{ Storage::url('category/' . $category->image) }}"
+                                        class="me-2 preview-img" alt="img">
+                                @else
+                                    No Image
+                                @endif
+                            </td>
                             <td>{{ $category->name ?? 'NA' }}</td>
                             <td>{{ ucwords($category->priority) ?? 'NA' }}</td>
-                            <td>{{ $category->status ?? 'NA' }}</td>
+                            <td>
+                                <div class="active-switch">
+                                    <label class="switch">
+                                        <input type="checkbox" class="status-toggle" data-id="{{ $category->id }}"
+                                            {{ $category->status ? 'checked' : '' }}>
+                                        <span class="sliders round"></span>
+                                    </label>
+                                </div>
+                            </td>
 
-                                    <td nowrap>
-                                        <a title="Delete"
-                                            onclick="confirmDelete('{{ route('category.destroy', $category->id) }}')"
-                                            class="fa fa-trash-alt w-20px"></a>
-                                    </td>
-
+                            <td nowrap>
+                                <a title="Edit" href="{{ route('category.edit', $category->id) }}"
+                                    class="fa fa-edit w-20px"></a>
+                                <a title="Delete"
+                                    onclick="confirmDelete('{{ route('category.destroy', $category->id) }}')"
+                                    class="fa fa-trash-alt w-20px"></a>
+                            </td>
                     @endforeach
 
                 @endif
@@ -62,7 +72,7 @@
         </div>  --}}
 
         <div>
-            {{ $categories->appends(['itemsPerPage' => $itemsPerPage, 'search' => request('search')])->links('pagination::bootstrap-5', ['pageName' => 'page','secure' => true]) }}
+            {{ $categories->appends(['itemsPerPage' => $itemsPerPage, 'search' => request('search')])->links('pagination::bootstrap-5', ['pageName' => 'page', 'secure' => true]) }}
         </div>
 
 

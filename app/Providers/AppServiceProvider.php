@@ -24,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(125);
 
 
-        View::share('projectName', 'First Find');
+        View::share('projectName', 'Firstfind');
     }
 }

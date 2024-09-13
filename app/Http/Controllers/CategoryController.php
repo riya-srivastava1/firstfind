@@ -74,7 +74,8 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        return view('admin.category.edit',compact('category'));
     }
 
     /**
@@ -90,6 +91,11 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        if($category){
+            $category->delete();
+            return redirect()->back()->with(['message' => 'Deleted Successfully','alert-type' => 'success']);
+        }
+        return redirect()->back()->with(['message' => 'Something went wrong','alert-type' => 'error']);
     }
 }
