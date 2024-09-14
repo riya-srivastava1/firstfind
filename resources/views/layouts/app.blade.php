@@ -10,7 +10,7 @@
     <meta content="" name="author" />
     <!-- ================== BEGIN core-css ================== -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-    <link href="{{ asset('assets/css/vendor.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/vendor.min.css') }}?v={{ time() }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/default/app.min.css') }}" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet">
