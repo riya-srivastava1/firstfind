@@ -13841,7 +13841,7 @@ a.ui-button:active {
 /* When the checkbox is checked */
 
 input:checked+.slider {
-    background-color: #4CAF50;
+    background-color: #055;
 }
 
 input:checked+.slider::before {

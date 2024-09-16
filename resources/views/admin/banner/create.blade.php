@@ -4,8 +4,8 @@
         <!-- BEGIN breadcrumb -->
         <ol class="breadcrumb justify-content-end">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('category.index') }}">Category Listing</a></li>
-            <li class="breadcrumb-item active">Add Category</li>
+            <li class="breadcrumb-item"><a href="{{ route('banner.index') }}">Banner Listing</a></li>
+            <li class="breadcrumb-item active">Add Banner</li>
         </ol>
         <!-- END breadcrumb -->
         <!-- BEGIN row -->
@@ -16,23 +16,22 @@
                 <div class="panel panel-inverse" data-sortable-id="form-validation-1">
                     <!-- BEGIN panel-heading -->
                     <div class="panel-heading">
-                        <h4 class="panel-title">Add Categories</h4>
+                        <h4 class="panel-title">Add Banner</h4>
                     </div>
                     <!-- END panel-heading -->
                     <!-- BEGIN panel-body -->
                     <div class="panel-body">
-                        <form class="form-horizontal" action="{{ route('category.store') }}" data-parsley-validate="true"
-                            method="POST" id="categoryForm" enctype="multipart/form-data">
+                        <form class="form-horizontal" action="{{ route('banner.store') }}" data-parsley-validate="true"
+                            method="POST" id="bannerForm" enctype="multipart/form-data" data-parsley-validate="true">
                             @csrf
                             <div class="row">
 
                                 <div id="tracking_id" class="col-md-4">
                                     <div class="form-group mb-3">
-                                        <label class="col-form-label form-label">Category name <span class="text-danger"
+                                        <label class="col-form-label form-label">Banner name <span class="text-danger"
                                                 title="field required">*</span></label>
                                         <input class="form-control" type="text" id="tracking_id" name="name"
-                                            value="{{ old('name') }}"  placeholder="Enter Category name"
-                            >
+                                            value="{{ old('name') }}"  placeholder="Enter Category name" required>
                                         @if ($errors->has('name'))
                                             <div class="text-danger">{{ $errors->first('name') }}
                                             </div>

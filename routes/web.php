@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
@@ -16,7 +17,7 @@ use Modules\Users\App\Http\Controllers\UsersController;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -61,9 +62,18 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         Route::get('subcategory/delete/{id}', 'destroy')->name('subcategory.destroy');
         Route::post('subcategory/status', 'status')->name('subcategory.status');
         Route::post('subcategory/search', 'search')->name('subcategory.search');
-        Route::patch('/subcategory/{id}/status', 'updateStatus')->name('subcategory.status.update');
+    });
 
+    Route::controller(BannerController::class)->group(function () {
+        Route::get('banner', 'index')->name('banner.index');
+        Route::get('banner/create', 'create')->name('banner.create');
+        Route::post('banner/store', 'store')->name('banner.store');
+        Route::get('banner/edit/{id}', 'edit')->name('banner.edit');
+        Route::post('banner/update/{id}', 'update')->name('banner.update');
+        Route::get('banner/delete/{id}', 'destroy')->name('banner.destroy');
+        Route::post('banner/status', 'status')->name('banner.status');
+        Route::post('banner/search', 'search')->name('banner.search');
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -119,16 +119,16 @@ class CategoryController extends Controller
             return redirect()->back()->with('error', 'Something went wrong');
         }
     }
-    public function status(Request $request)
-    {
-         $item = Category::find($request->id);
-        if ($item) {
-            $item->status = $request->status;
-            $item->save();
+    // public function status(Request $request)
+    // {
+    //      $item = Category::find($request->id);
+    //     if ($item) {
+    //         $item->status = $request->status;
+    //         $item->save();
 
-            return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
-        }
+    //         return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+    //     }
 
-        return response()->json(['success' => false, 'message' => 'Item not found.']);
-    }
+    //     return response()->json(['success' => false, 'message' => 'Item not found.']);
+    // }
 }
