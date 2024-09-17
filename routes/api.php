@@ -21,5 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(CategoryAPIController::class)->group(function () {
     Route::get('/categories', 'index');
     Route::get('/subcategories', 'subCategoryList');
-    Route::get('/subcategory/store', 'store');
+    Route::get('/subcategory/store/{categoryid}', 'store');
 });

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Banner;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use App\Services\FileUploadService;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class BannerController extends Controller
 {
@@ -27,7 +28,7 @@ class BannerController extends Controller
 
         $itemsPerPage = 15;
         $itemsPerPage = $request->query('itemsPerPage', $itemsPerPage);
-        $categories = Banner::orderBy('id', 'desc')->paginate($itemsPerPage);
+        $banners = Banner::orderBy('id', 'desc')->paginate($itemsPerPage);
         if ($request->ajax()) {
             $view = view('admin.banner.index', compact('contacts', 'itemsPerPage', 'totalItems'))->render();
             $response = [
@@ -36,7 +37,7 @@ class BannerController extends Controller
 
             return new JsonResponse($response);
         }
-        return view('admin.banner.index', compact('categories', 'totalItems', 'itemsPerPage'));
+        return view('admin.banner.index', compact('banners', 'totalItems', 'itemsPerPage'));
     }
 
     /**
@@ -76,7 +77,8 @@ class BannerController extends Controller
      */
     public function edit(string $id)
     {
-        return view('admin.banner.edit');
+        $banner = Banner::findOrFail($id);
+        return view('admin.banner.edit',compact('banner'));
     }
 
     /**
@@ -84,7 +86,21 @@ class BannerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $banner = Banner::findOrFail($id);
+        $banner->fill($request->except('image')); // Fill all fields except 'image'
+        $banner->created_by = auth()->user()->id;
+        $logoData = $request->except('image');
+        if ($request->hasFile('image')) {
+            $filename = $this->fileUploadService->uploadImage('banner/', $request->file('image'));
+            $logoData['image'] = $filename;
+            $this->fileUploadService->removeImage('banner/', $logo->image ?? null);
+        }
+        // Save the updated subbanner
+        $banner->update($logoData);
+        return redirect()->route('banner.index')->with([
+            'message' => 'Updated Successfully',
+            'alert-type' => 'success'
+        ]);
     }
 
     /**
@@ -92,7 +108,17 @@ class BannerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $category = Banner::findOrFail($id);
+            $image = $category->image;
+            $category->forceDelete();
+            if ($image) {
+                $this->fileUploadService->removeImage('category/', $image);
+            }
+            return redirect()->back()->with('success', 'Deleted Successfully');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
     }
 
     public function status(Request $request)

@@ -20,29 +20,29 @@
                 </tr>
             </thead>
             <tbody>
-                @if (isset($categories) && count($categories) > 0)
-                    @foreach ($categories as $index => $category)
+                @if (isset($banners) && count($banners) > 0)
+                    @foreach ($banners as $index => $banner)
                         <tr class="odd gradeX">
                             <td width="1%" class="fw-bold text-dark">
-                                {{ ($categories->currentPage() - 1) * $categories->perPage() + $index + 1 }}</td>
-                            <td>{{ $category->id ?? 'NA' }}</td>
+                                {{ ($banners->currentPage() - 1) * $banners->perPage() + $index + 1 }}</td>
+                            <td>{{ $banner->id ?? 'NA' }}</td>
                             <td>
-                                @if ($category->image)
+                                @if ($banner->image)
                                     <img width="50px" height="50px"
-                                        src="{{ Storage::url('category/' . $category->image) }}"
+                                        src="{{ Storage::url('banner/' . $banner->image) }}"
                                         class="me-2 preview-img" alt="img">
                                 @else
                                     No Image
                                 @endif
                             </td>
-                            <td>{{ $category->name ?? 'NA' }}</td>
-                            <td>{{ ucwords($category->priority) ?? 'NA' }}</td>
+                            <td>{{ $banner->name ?? 'NA' }}</td>
+                            <td>{{ ucwords($banner->priority) ?? 'NA' }}</td>
                             <td>
                                 <div class="active-switch">
                                     <label class="switch">
-                                        <input type="checkbox" class="status-toggle" data-id="{{ $category->id }}"
+                                        <input type="checkbox" class="status-toggle" data-id="{{ $banner->id }}"
                                         onclick="return confirm('Are you sure want to change status?')"
-                                            {{ $category->status ? 'checked' : '' }}>
+                                            {{ $banner->status ? 'checked' : '' }}>
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
@@ -50,10 +50,10 @@
 
 
                             <td nowrap>
-                                <a title="Edit" href="{{ route('category.edit', $category->id) }}"
+                                <a title="Edit" href="{{ route('banner.edit', $banner->id) }}"
                                     class="fa fa-edit w-20px"></a>
                                 <a title="Delete"
-                                    onclick="confirmDelete('{{ route('category.destroy', $category->id) }}')"
+                                    onclick="confirmDelete('{{ route('banner.destroy', $banner->id) }}')"
                                     class="fa fa-trash-alt w-20px"></a>
                             </td>
                     @endforeach
@@ -62,7 +62,7 @@
                 </tr>
             </tbody>
         </table>
-        @forelse ($categories as $user)
+        @forelse ($banners as $user)
         @empty
             <div style="text-align: center;">
                 <img src="{{ URL::asset('assets/img/no_data_available.svg') }}" alt="No data found" height="200"
@@ -70,11 +70,11 @@
             </div>
         @endforelse
         {{--  <div>
-            {{ $categories->appends(['itemsPerPage' => $itemsPerPage])->links('pagination::bootstrap-5', ['pageName' => 'page']) }}
+            {{ $banners->appends(['itemsPerPage' => $itemsPerPage])->links('pagination::bootstrap-5', ['pageName' => 'page']) }}
         </div>  --}}
 
         <div>
-            {{ $categories->appends(['itemsPerPage' => $itemsPerPage, 'search' => request('search')])->links('pagination::bootstrap-5', ['pageName' => 'page', 'secure' => true]) }}
+            {{ $banners->appends(['itemsPerPage' => $itemsPerPage, 'search' => request('search')])->links('pagination::bootstrap-5', ['pageName' => 'page', 'secure' => true]) }}
         </div>
 
 

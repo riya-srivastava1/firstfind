@@ -87,7 +87,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->fill($request->except('image')); // Fill all fields except 'image'
         $category->created_by = auth()->user()->id;
-        $logoData = $request->except('logo_image');
+        $logoData = $request->except('image');
         if ($request->hasFile('image')) {
             $filename = $this->fileUploadService->uploadImage('category/', $request->file('image'));
             $logoData['image'] = $filename;

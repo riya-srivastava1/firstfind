@@ -46,7 +46,7 @@
                                 @elseif ($subcategory->add_category_status == 2)
                                     <span class="badge badge-danger">Rejected</span>
                                 @elseif ($subcategory->add_category_status == 0)
-                                    <form action="{{ route('subcategory.status.update', $subcategory->id) }}" method="POST" style="display: inline;">
+                                    <form action="{{ route('subcategory.status', $subcategory->id) }}" method="POST" style="display: inline;">
                                         @csrf
                                         @method('PATCH')
                                         <button type="submit" name="status" value="1" class="btn-icon" title="Approve" onclick="return confirm('Are you sure want to approve this?')">
@@ -60,9 +60,9 @@
                                     NA
                                 @endif
                             </td>
-                            
-                            
-                            
+
+
+
                             <td>
                                 <div class="active-switch">
                                     <label class="switch">

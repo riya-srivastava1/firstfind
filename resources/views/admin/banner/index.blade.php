@@ -45,7 +45,7 @@
 @section('scripts')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
-        var statusRoute = `{{ route('category.status') }}`;
+        var statusRoute = `{{ route('banner.status') }}`;
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('assets/js/status-update.js') }}"></script>

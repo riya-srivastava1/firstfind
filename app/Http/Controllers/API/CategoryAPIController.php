@@ -56,9 +56,9 @@ class CategoryAPIController extends Controller
     public function subCategoryList()
     {
         try {
-            $subcategories = SubCategory::select('id','category_id', 'name', 'image')
+            $subcategories = SubCategory::select('id', 'category_id', 'name', 'image')
                 ->where('status', 1)
-                ->where('add_category_status',1)
+                ->where('add_category_status', 1)
                 ->orderByDesc('is_featured') // Show featured subcategories first
                 ->orderByDesc('created_at')  // Then order by creation date
                 ->get()
@@ -95,8 +95,18 @@ class CategoryAPIController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
+        // Check if the category exists
+        $category = Category::find($id);
+
+        if (!$category) {
+            return response()->json([
+                'success' => false,
+                'message' => 'The selected category does not exist.',
+            ], 404);
+        }
+
         // Define validation rules
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:sub_categories,name',
@@ -113,6 +123,7 @@ class CategoryAPIController extends Controller
 
         // Store the details in the database
         $detail = new SubCategory();
+        $detail->category_id = $id;
         $detail->name = $request->name;
         $detail->save();
 
@@ -122,10 +133,46 @@ class CategoryAPIController extends Controller
             'message' => 'Your item add request has been sent to the admin for approval.',
             'data' => [
                 'id' => $detail->id,
+                'category_id' => $detail->category_id,
                 'name' => $detail->name
             ],
         ], 201);
     }
+
+
+    // public function store(Request $request,$id)
+    // {
+    //     // Define validation rules
+    //     $validator = Validator::make($request->all(), [
+    //         'name' => 'required|string|max:255|unique:sub_categories,name',
+    //     ]);
+
+    //     // Check validation
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'success' => false,
+    //             'message' => 'Validation errors',
+    //             'errors' => $validator->errors(),
+    //         ], 400);
+    //     }
+
+    //     // Store the details in the database
+    //     $detail = new SubCategory();
+    //     $detail->category_id = $id;
+    //     $detail->name = $request->name;
+    //     $detail->save();
+
+    //     // Return success response with id first, then name
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Your item add request has been sent to the admin for approval.',
+    //         'data' => [
+    //             'id' => $detail->id,
+    //             'category_id' => $detail->category_id,
+    //             'name' => $detail->name
+    //         ],
+    //     ], 201);
+    // }
 
 
 }
