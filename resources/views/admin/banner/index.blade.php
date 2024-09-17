@@ -35,9 +35,7 @@
         <!-- BEGIN panel-body -->
         <div id="searchResults">
             @include('admin.banner.partial-index')
-
         </div>
-
         <!-- END panel-body -->
     </div>
     @endsection
