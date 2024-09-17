@@ -39,6 +39,7 @@
                         </a>
                     </div>
 
+
                 </div>
 
                 <div class="menu-item {{ request()->routeIs('banner.index', 'banner.create', 'banner.edit') ? 'active' : '' }}">
@@ -48,6 +49,16 @@
                             <i class="fas fa-dashboard"></i>
                         </div>
                         <div class="menu-text">Banner</div>
+                    </a>
+                </div>
+
+                <div class="menu-item {{ request()->routeIs('logo.index', 'logo.create', 'logo.edit') ? 'active' : '' }}">
+
+                    <a href="{{ route('logo.index') }}" class="menu-link">
+                        <div class="menu-icon">
+                            <i class="fas fa-dashboard"></i>
+                        </div>
+                        <div class="menu-text">Logo</div>
                     </a>
                 </div>
             </div>

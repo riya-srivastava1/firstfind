@@ -3,6 +3,7 @@
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LogoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubCategoryController;
 use Illuminate\Support\Facades\Route;
@@ -73,6 +74,17 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         Route::get('banner/delete/{id}', 'destroy')->name('banner.destroy');
         Route::post('banner/status', 'status')->name('banner.status');
         Route::post('banner/search', 'search')->name('banner.search');
+    });
+
+    Route::controller(LogoController::class)->group(function () {
+        Route::get('logo', 'index')->name('logo.index');
+        Route::get('logo/create', 'create')->name('logo.create');
+        Route::post('logo/store', 'store')->name('logo.store');
+        Route::get('logo/edit/{id}', 'edit')->name('logo.edit');
+        Route::post('logo/update/{id}', 'update')->name('logo.update');
+        Route::get('logo/delete/{id}', 'destroy')->name('logo.destroy');
+        Route::post('logo/status', 'status')->name('logo.status');
+        Route::post('logo/search', 'search')->name('logo.search');
     });
 });
 
